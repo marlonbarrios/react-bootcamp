@@ -1,23 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-import { useState} from 'react'
+
 
 
 function App() {
-const [inputValue, setInputValue] = useState("");
+    const [mousePosition, setMousePosition] = useState({x:0, y:0});
 
-    function handleInputChange(event) {
-      setInputValue(event.target.value)
+    useEffect(() => { 
+        document.addEventListener('mousemove', handleMouseMove);
+    }, []);
+
+    function handleMouseMove(event) {
+    setMousePosition({ x: event.pageX, y: event.pageY});
     }
-    return (
     
-<div id='app'>
- <input onChange={handleInputChange}/>
-<h1>{inputValue}</h1>
-</div>
-);
-} 
+ 
+  return (
+    <div style={{alignContent:"center", alignItems: "center", textAlign: "center" }}>
+        <h1>x:{mousePosition.x}</h1>
+        <h1>y:{mousePosition.y}</h1>
 
-const rootNode = document.getElementById('root');
-ReactDOM.render(<App/>, rootNode
-);
+    </div>
+  );
+}
+
+const rootNode = document.getElementById("root");
+ReactDOM.render(<App />, rootNode);
