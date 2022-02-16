@@ -7,16 +7,17 @@ const endPoint =  'https://api.github.com/users/marlonbarrios';
 function App() {
     const [user, setUser] = useState(null);
 
+
+
     useEffect(() => { 
-      fetch(endPoint)
-      .then(response => response.json())
-    //   .then(data => console.log(data))
-      .then(data => setUser(data))
-  
+        async function getUser() {
+            const response = await fetch(endPoint);
+            const data = await response.json();
+            setUser(data);
+            }
+            getUser()
     }, []);
 
-  
-    
  
   return user ? (
     <div>
