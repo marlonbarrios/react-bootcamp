@@ -1,27 +1,34 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 
+const endPoint =  'https://api.github.com/users/marlonbarrios';
 
 
 function App() {
-    const [mousePosition, setMousePosition] = useState({x:0, y:0});
+    const [user, setUser] = useState(null);
 
     useEffect(() => { 
-        document.addEventListener('mousemove', handleMouseMove);
+      fetch(endPoint)
+      .then(response => response.json())
+    //   .then(data => console.log(data))
+      .then(data => setUser(data))
+  
     }, []);
 
-    function handleMouseMove(event) {
-    setMousePosition({ x: event.pageX, y: event.pageY});
-    }
+  
     
  
-  return (
-    <div style={{alignContent:"center", alignItems: "center", textAlign: "center" }}>
-        <h1>x:{mousePosition.x}</h1>
-        <h1>y:{mousePosition.y}</h1>
-
+  return user ? (
+    <div>
+        <h2>{user.name}</h2>
+        <p>{user.bio}</p>
+        <a href={user.blog}>{user.name} Porfolio</a>
+        <p>{user.company}</p>
+        
+     <img alt='avatar' src={user.avatar_url} style={{height:100}}/>
+        
     </div>
-  );
+  ) : ( <p>loading</p>);
 }
 
 const rootNode = document.getElementById("root");
